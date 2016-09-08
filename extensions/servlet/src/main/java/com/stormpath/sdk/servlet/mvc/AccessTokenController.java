@@ -23,6 +23,7 @@ import com.stormpath.sdk.impl.authc.DefaultBasicApiAuthenticationRequest;
 import com.stormpath.sdk.impl.authc.DefaultHttpServletRequestWrapper;
 import com.stormpath.sdk.impl.oauth.DefaultOAuthClientCredentialsGrantRequestAuthentication;
 import com.stormpath.sdk.impl.oauth.DefaultOAuthStormpathSocialGrantRequestAuthentication;
+import com.stormpath.sdk.impl.oauth.DefaultOAuthStormpathTokenGrantRequestAuthentication;
 import com.stormpath.sdk.lang.Assert;
 import com.stormpath.sdk.oauth.AccessTokenResult;
 import com.stormpath.sdk.oauth.Authenticators;
@@ -31,6 +32,7 @@ import com.stormpath.sdk.oauth.OAuthGrantRequestAuthenticationResult;
 import com.stormpath.sdk.oauth.OAuthPasswordGrantRequestAuthentication;
 import com.stormpath.sdk.oauth.OAuthRefreshTokenRequestAuthentication;
 import com.stormpath.sdk.oauth.OAuthStormpathSocialGrantRequestAuthentication;
+import com.stormpath.sdk.oauth.OAuthStormpathTokenGrantRequestAuthentication;
 import com.stormpath.sdk.resource.ResourceException;
 import com.stormpath.sdk.servlet.authc.FailedAuthenticationRequestEvent;
 import com.stormpath.sdk.servlet.authc.SuccessfulAuthenticationRequestEvent;
@@ -67,6 +69,7 @@ public class AccessTokenController extends AbstractController {
     private static final String CLIENT_CREDENTIALS_GRANT_TYPE = "client_credentials";
     private static final String PASSWORD_GRANT_TYPE = "password";
     private static final String STORMPATH_SOCIAL_GRANT_TYPE = "stormpath_social";
+    private static final String STORMPATH_TOKEN_GRANT_TYPE = "stormpath_token";
     private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
     private static final String GRANT_TYPE_PARAM_NAME = "grant_type";
     private static final String AUTHORIZATION = "Authorization";
@@ -283,6 +286,29 @@ public class AccessTokenController extends AbstractController {
         return createAccessTokenResult(request, response, authenticationResult);
     }
 
+    /**
+     * @since 1.1.0
+     */
+    private AccessTokenResult stormpathTokenAuthenticationRequest(HttpServletRequest request, HttpServletResponse response) {
+        OAuthGrantRequestAuthenticationResult authenticationResult;
+
+        try {
+            Application app = getApplication(request);
+            String token = request.getParameter("token");
+            OAuthStormpathTokenGrantRequestAuthentication grantRequestAuthentication =
+                    new DefaultOAuthStormpathTokenGrantRequestAuthentication(token);
+
+            authenticationResult = Authenticators.OAUTH_STORMPATH_TOKEN_GRANT_REQUEST_AUTHENTICATOR
+                    .forApplication(app)
+                    .authenticate(grantRequestAuthentication);
+        } catch (ResourceException e) {
+            log.debug("Unable to authenticate stormpath token grant request: {}", e.getMessage(), e);
+            throw new OAuthException(OAuthErrorCode.INVALID_CLIENT, "Unable to authenticate stormpath token grant request");
+        }
+
+        return createAccessTokenResult(request, response, authenticationResult);
+    }
+
     @Override
     protected ViewModel doPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -321,6 +347,14 @@ public class AccessTokenController extends AbstractController {
                 case STORMPATH_SOCIAL_GRANT_TYPE:
                     try {
                         result = this.stormpathSocialAuthenticationRequest(request, response);
+                    } catch (HttpAuthenticationException e) {
+                        log.warn("Unable to authenticate client", e);
+                        throw new OAuthException(OAuthErrorCode.INVALID_CLIENT);
+                    }
+                    break;
+                case STORMPATH_TOKEN_GRANT_TYPE:
+                    try {
+                        result = this.stormpathTokenAuthenticationRequest(request, response);
                     } catch (HttpAuthenticationException e) {
                         log.warn("Unable to authenticate client", e);
                         throw new OAuthException(OAuthErrorCode.INVALID_CLIENT);

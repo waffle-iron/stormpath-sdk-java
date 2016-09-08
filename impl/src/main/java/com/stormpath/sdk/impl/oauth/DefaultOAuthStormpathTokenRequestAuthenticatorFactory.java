@@ -8,7 +8,7 @@ import com.stormpath.sdk.oauth.OAuthStormpathSocialRequestAuthenticatorFactory;
 /**
  * @since 1.1.0
  */
-public class DefaultOAuthStormpathSocialRequestAuthenticatorFactory implements OAuthStormpathSocialRequestAuthenticatorFactory {
+public class DefaultOAuthStormpathTokenRequestAuthenticatorFactory implements OAuthStormpathSocialRequestAuthenticatorFactory {
     @Override
     public OAuthStormpathSocialGrantRequestAuthenticator forApplication(Application application) {
         return ((DefaultApplication) application).createStormpathSocialGrantAuthenticator();

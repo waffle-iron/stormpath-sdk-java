@@ -3,7 +3,7 @@ package com.stormpath.sdk.impl.oauth;
 import com.stormpath.sdk.resource.Resource;
 
 /**
- * @since 1.0.0
+ * @since 1.1.0
  */
 public interface OAuthStormpathSocialGrantAuthenticationAttempt extends Resource {
     /**

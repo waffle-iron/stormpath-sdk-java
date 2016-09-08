@@ -128,5 +128,13 @@ public class Authenticators {
      */
     public static final OAuthStormpathSocialRequestAuthenticatorFactory OAUTH_STORMPATH_SOCIAL_GRANT_REQUEST_AUTHENTICATOR =
             (OAuthStormpathSocialRequestAuthenticatorFactory) Classes.newInstance("com.stormpath.sdk.impl.oauth.DefaultOAuthStormpathSocialRequestAuthenticatorFactory");
+
+    /**
+     * Constructs {@link OAuthStormpathTokenGrantRequestAuthenticator}s.
+     *
+     * @since 1.1.0
+     */
+    public static final OAuthStormpathTokenRequestAuthenticatorFactory OAUTH_STORMPATH_TOKEN_GRANT_REQUEST_AUTHENTICATOR =
+            (OAuthStormpathTokenRequestAuthenticatorFactory) Classes.newInstance("com.stormpath.sdk.impl.oauth.DefaultOAuthStormpathTokenRequestAuthenticatorFactory");
 }
 
