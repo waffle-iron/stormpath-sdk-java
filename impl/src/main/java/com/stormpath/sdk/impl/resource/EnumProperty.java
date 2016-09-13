@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Stormpath, Inc.
+ * Copyright 2016 Stormpath, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,11 @@
 package com.stormpath.sdk.impl.resource;
 
 /**
- * @since 0.8
+ * @since 1.1.0
  */
-public class StatusProperty<T extends Enum> extends EnumProperty<T> {
+public class EnumProperty<T extends Enum> extends NonStringProperty<T> {
 
-    public StatusProperty(Class<T> clazz) {
-        super("status", clazz);
-    }
-
-    /**
-     * @since 1.0.RC4
-     */
-    public StatusProperty(String propertyName, Class<T> clazz) {
-        super(propertyName, clazz);
+    protected EnumProperty(String name, Class<T> type) {
+        super(name, type);
     }
 }

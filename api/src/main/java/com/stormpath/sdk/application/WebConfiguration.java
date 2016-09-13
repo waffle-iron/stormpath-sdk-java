@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Stormpath, Inc.
+ * Copyright 2016 Stormpath, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.stormpath.sdk.impl.resource;
+package com.stormpath.sdk.application;
+
+import com.stormpath.sdk.api.ApiKey;
+import com.stormpath.sdk.resource.Auditable;
+import com.stormpath.sdk.resource.Deletable;
+import com.stormpath.sdk.resource.Resource;
+import com.stormpath.sdk.resource.Saveable;
 
 /**
- * @since 0.8
+ * @since 1.1.0
  */
-public class StatusProperty<T extends Enum> extends EnumProperty<T> {
+public interface WebConfiguration extends Resource, Saveable, Deletable, Auditable {
 
-    public StatusProperty(Class<T> clazz) {
-        super("status", clazz);
-    }
+    String getDomainName();
 
-    /**
-     * @since 1.0.RC4
-     */
-    public StatusProperty(String propertyName, Class<T> clazz) {
-        super(propertyName, clazz);
-    }
+    String getBasePath();
+
+    WebConfigurationStatus getStatus();
+
+    ApiKey getSigningKey();
+
+    Application getApplication();
 }

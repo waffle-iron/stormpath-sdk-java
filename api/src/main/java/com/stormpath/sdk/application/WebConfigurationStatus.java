@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Stormpath, Inc.
+ * Copyright 2016 Stormpath, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.stormpath.sdk.impl.resource;
+package com.stormpath.sdk.application;
 
 /**
- * @since 0.8
+ * @since 1.1.0
  */
-public class StatusProperty<T extends Enum> extends EnumProperty<T> {
-
-    public StatusProperty(Class<T> clazz) {
-        super("status", clazz);
-    }
+public enum WebConfigurationStatus {
 
     /**
-     * @since 1.0.RC4
+     * WebConfiguration that are enabled can connect t
      */
-    public StatusProperty(String propertyName, Class<T> clazz) {
-        super(propertyName, clazz);
-    }
+    ENABLED,
+
+    /**
+     * WebConfiguration that are disabled cannot be used.
+     */
+    DISABLED,
+
 }

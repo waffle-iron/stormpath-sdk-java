@@ -32,6 +32,7 @@ import com.stormpath.sdk.application.ApplicationAccountStoreMappingCriteria;
 import com.stormpath.sdk.application.ApplicationAccountStoreMappingList;
 import com.stormpath.sdk.application.ApplicationOptions;
 import com.stormpath.sdk.application.ApplicationStatus;
+import com.stormpath.sdk.application.WebConfiguration;
 import com.stormpath.sdk.authc.AuthenticationRequest;
 import com.stormpath.sdk.authc.AuthenticationResult;
 import com.stormpath.sdk.directory.AccountStore;
@@ -179,6 +180,8 @@ public class DefaultApplication extends AbstractExtendableInstanceResource imple
             new ResourceReference<OAuthPolicy>("oAuthPolicy", OAuthPolicy.class);
     static final ResourceReference<SamlPolicy> SAML_POLICY =
             new ResourceReference<SamlPolicy>("samlPolicy", SamlPolicy.class);
+    static final ResourceReference<WebConfiguration> WEB_CONFIGURATION =
+            new ResourceReference<>("webConfig", WebConfiguration.class);
 
     // COLLECTION RESOURCE REFERENCES:
     static final CollectionReference<AccountList, Account>                         ACCOUNTS               =
@@ -201,7 +204,8 @@ public class DefaultApplication extends AbstractExtendableInstanceResource imple
 
     static final Map<String, Property> PROPERTY_DESCRIPTORS = createPropertyDescriptorMap(
         NAME, DESCRIPTION, STATUS, TENANT, DEFAULT_ACCOUNT_STORE_MAPPING, DEFAULT_GROUP_STORE_MAPPING, ACCOUNTS, GROUPS,
-        ACCOUNT_STORE_MAPPINGS, PASSWORD_RESET_TOKENS, CUSTOM_DATA, OAUTH_POLICY, AUTHORIZED_CALLBACK_URIS, SAML_POLICY);
+        ACCOUNT_STORE_MAPPINGS, PASSWORD_RESET_TOKENS, CUSTOM_DATA, OAUTH_POLICY, AUTHORIZED_CALLBACK_URIS, SAML_POLICY,
+            WEB_CONFIGURATION);
 
     public DefaultApplication(InternalDataStore dataStore) {
         super(dataStore);
@@ -324,6 +328,11 @@ public class DefaultApplication extends AbstractExtendableInstanceResource imple
     // @since 1.0.RC8
     public SamlPolicy getSamlPolicy() {
         return getResourceProperty(SAML_POLICY);
+    }
+
+    @Override
+    public WebConfiguration getWebConfiguration() {
+        return getResourceProperty(WEB_CONFIGURATION);
     }
 
     // @since 1.0.RC8
