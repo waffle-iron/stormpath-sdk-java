@@ -1,4 +1,5 @@
 [![Stories in Ready](https://badge.waffle.io/stormpath/stormpath-sdk-java.png?label=ready&title=Ready)](https://waffle.io/stormpath/stormpath-sdk-java)
+[![Stories in Ready](https://badge.waffle.io/stormpath/stormpath-sdk-java.png?label=ready&title=Ready)](https://waffle.io/stormpath/stormpath-sdk-java)
 [![Build Status](https://api.travis-ci.org/stormpath/stormpath-sdk-java.png?branch=master)](https://travis-ci.org/stormpath/stormpath-sdk-java)
 
 # Stormpath Java SDK #
